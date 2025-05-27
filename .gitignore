@@ -1,4 +1,16 @@
 # editor config
 pyproject.toml
 
+# virtual environment
 **/venv/*
+
+# database
+pgdata
+
+# environment variables
+.env
+.env.local
+.env.production
+
+# pycache
+**/__pycache__/*
