@@ -46,6 +46,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    "drf_yasg",
     "rest_framework",
     "employees",
     "attendance",
