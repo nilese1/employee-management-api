@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from drf_yasg import openapi
 from rest_framework import viewsets
 from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSerializer
@@ -13,13 +14,19 @@ def employee_filter_params():
         openapi.Parameter(
             "department",
             openapi.IN_QUERY,
-            description="Department",
-            type=openapi.TYPE_STRING,
+            description="Department ID",
+            type=openapi.TYPE_INTEGER,
         ),
         openapi.Parameter(
             "date_of_joining",
             openapi.IN_QUERY,
             description="Date of Jonining",
+            type=openapi.TYPE_STRING,
+        ),
+        openapi.Parameter(
+            "department__department_name",
+            openapi.IN_QUERY,
+            description="Department Name",
             type=openapi.TYPE_STRING,
         ),
     ]
@@ -29,9 +36,8 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-    # filter by department and date joined
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["department", "date_of_joining"]
+    filterset_fields = ["department", "date_of_joining", "department__department_name"]
 
     @swagger_auto_schema(
         operation_description="Retrieve a list of employees with filters",
@@ -49,3 +55,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 class PerformanceViewSet(viewsets.ModelViewSet):
     queryset = Performance.objects.all()
     serializer_class = PerformanceSerializer
+
+
+class ChartView(TemplateView):
+    template_name = "chart.html"

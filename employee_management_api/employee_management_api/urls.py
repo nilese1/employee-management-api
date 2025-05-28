@@ -36,14 +36,15 @@ urlpatterns += [
 
 # Swagger
 schema_view = get_schema_view(
-    openapi.Info(
-        title="Employee Management API",
-        default_version="0.1"
-    ),
+    openapi.Info(title="Employee Management API", default_version="0.1"),
     public=True,
-    permission_classes=[permissions.AllowAny]
+    permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns += [
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui")
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    )
 ]
