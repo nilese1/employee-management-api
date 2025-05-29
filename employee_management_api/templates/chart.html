@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,8 +7,20 @@
         <title>Analytics Charts</title>
     </head>
     <body>
+        <!--Script in body tag so it's easier to refactor to template inheritance later-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <canvas id="Employees per Departent Pie Chart"></canvas>
-        <canvas id="Monthly Attendance Bar Chart"></canvas>
+        <script src="{% static 'js/createChart.js' %}"></script>
+        <div id="charts">
+            <canvas id="Employees per Departent Pie Chart"></canvas>
+            <canvas id="Monthly Attendance Bar Chart"></canvas>
+        </div>
+
+        <script id="chart-data" type="application/json">
+        {
+            "departments": {{ departments|safe }},
+            "employees_per_department": {{employees_per_department|safe}},
+            "attendance": {{ attendance|safe }}
+        }
+        </script>
     </body>
 </html>

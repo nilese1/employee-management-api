@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 from drf_yasg import openapi
 from rest_framework import viewsets
@@ -6,6 +5,7 @@ from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSe
 from .models import Employee, Department, Performance
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
+import json
 
 
 # Refactored params into a seperate function because manually putting them in the header looked ugly
@@ -59,3 +59,18 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 
 class ChartView(TemplateView):
     template_name = "chart.html"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+
+        departments = Department.objects.all()
+        context["departments"] = [dept.department_name for dept in departments]
+        context["employees_per_department"] = [
+            dept.employee_set.count() for dept in departments
+        ]
+        context["attendance"] = "hihihi"
+
+        # make info json safe
+        context = {field: json.dumps(context[field]) for field in context}
+
+        return context
