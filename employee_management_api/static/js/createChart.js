@@ -1,4 +1,29 @@
-function createAttendanceChart(canvas, attendance) {}
+function createAttendanceChart(canvas, attendanceLabels, attendanceData) {
+  new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: attendanceLabels,
+      datasets: [
+        {
+          label: "Attendance Count For This Month",
+          data: attendanceData,
+          backgroundColor: [
+            "rgba(75, 192, 192, 0.6)", // Present
+            "rgba(255, 99, 132, 0.6)", // Absent
+            "rgba(255, 206, 86, 0.6)", // Late
+          ],
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
 
 function createEmployeeChart(canvas, employees_per_department, departments) {
   new Chart(canvas, {
@@ -43,7 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const data = JSON.parse(document.getElementById("chart-data").textContent);
 
-  createAttendanceChart(attendance_canvas, data.attendance);
+  createAttendanceChart(
+    attendance_canvas,
+    data.attendance_labels,
+    data.attendance_data,
+  );
   createEmployeeChart(
     employee_canvas,
     data.employees_per_department,

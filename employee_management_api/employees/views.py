@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView
 from drf_yasg import openapi
 from rest_framework import viewsets
+
+from attendance.models import Attendance
 from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSerializer
 from .models import Employee, Department, Performance
 from django_filters.rest_framework import DjangoFilterBackend
@@ -61,16 +63,38 @@ class ChartView(TemplateView):
     template_name = "chart.html"
 
     def get_context_data(self, **kwargs):
-        context = {}
+        context = super().get_context_data(**kwargs)
+        data = {}
 
         departments = Department.objects.all()
-        context["departments"] = [dept.department_name for dept in departments]
-        context["employees_per_department"] = [
+        data["departments"] = [dept.department_name for dept in departments]
+        data["employees_per_department"] = [
             dept.employee_set.count() for dept in departments
         ]
-        context["attendance"] = "hihihi"
+
+        # For now get current year and month, maybe add month selection later
+        year = self.request.GET.get("year")
+        month = self.request.GET.get("month")
+
+        # TODO: refactor into seperate function
+        attendance_for_month = Attendance.objects.filter(
+            date__month=month, date__year=year
+        )
+        status_names = []
+        status_counts = []
+        for status in Attendance.STATUS_CHOICES:
+            status_names.append(status[0])
+            current_status_count = attendance_for_month.filter(status=status[0]).count()
+            status_counts.append(current_status_count)
+
+        data["attendance_labels"] = status_names
+        data["attendance_data"] = status_counts
 
         # make info json safe
-        context = {field: json.dumps(context[field]) for field in context}
+        data = {field: json.dumps(data[field]) for field in data}
+
+        # put json safe data back into context
+        for field in data:
+            context[field] = data[field]
 
         return context
