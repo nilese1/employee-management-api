@@ -5,7 +5,7 @@ services:
     container_name: python-app
     restart: unless-stopped
     init: true
-    env_file: ./.env  # Uncomment if .env file exists
+    env_file: ./.env  
     ports:
       - "8000:8000"  # Exposes Django development server
     depends_on:
