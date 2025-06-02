@@ -34,19 +34,23 @@ This will:
 - Build your app image
 - Start the web server and database containers (PostgreSQL by default)
 
+---
+
 ### 4. Run management commands
 
 Perform database migrations and create an administrator
 ```bash
-  docker-compose exec web python manage.py migrate
-  docker-compose exec web python manage.py createsuperuser
+docker-compose exec python-app python manage.py migrate
+docker-compose exec python-app python manage.py createsuperuser
 ```
 
 > (Optional) Seed the database with random Employees and Attendances
 ```bash
-docker-compose exec web python manage.py seed_employees --count [count] --clear
-docker-compose exec web python manage.py seed_attendance --count [count] --clear
+docker-compose exec python-app python manage.py seed_employees --count [count] --clear
+docker-compose exec python-app python manage.py seed_attendance --count [count] --clear
 ```
+
+---
 
 ### 5. Watch for code changes (Dev only)
 
@@ -57,7 +61,7 @@ docker compose up --watch
 ## 🔗 API Endpoints
 | Path           | Description            |
 |----------------|------------------------|
-| `/api/`        | API root (optional)    |
+| `/api/`        | API root               |
 | `/swagger/`    | Swagger UI             |
 | `/admin/`      | Django admin panel     |
 | `/charts/`     | Visualized dashboard of data|
