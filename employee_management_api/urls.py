@@ -26,6 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("employees.urls"), name="employees"),
     path("", include("attendance.urls"), name="attendance"),
+    path("api-auth/", include("rest_framework.urls")),
 ]
 
 # Necessary for JWT authentication

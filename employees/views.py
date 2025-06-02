@@ -62,6 +62,25 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 class ChartView(TemplateView):
     template_name = "chart.html"
 
+    def get_attendance_graph_data(self, month, year):
+        """
+        Returns the attendance data given a month and a year
+        returns a tuple of arrays (labels, data) to be used in graphing
+        applications
+        """
+        attendance_for_month = Attendance.objects.filter(
+            date__month=month, date__year=year
+        )
+
+        status_names = []
+        status_counts = []
+        for status in Attendance.STATUS_CHOICES:
+            status_names.append(status[0])
+            current_status_count = attendance_for_month.filter(status=status[0]).count()
+            status_counts.append(current_status_count)
+
+        return (status_names, status_counts)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data = {}
@@ -75,20 +94,10 @@ class ChartView(TemplateView):
         # For now get current year and month, maybe add month selection later
         year = self.request.GET.get("year")
         month = self.request.GET.get("month")
+        attendance_labels, attendance_data = self.get_attendance_graph_data(month, year)
 
-        # TODO: refactor into seperate function
-        attendance_for_month = Attendance.objects.filter(
-            date__month=month, date__year=year
-        )
-        status_names = []
-        status_counts = []
-        for status in Attendance.STATUS_CHOICES:
-            status_names.append(status[0])
-            current_status_count = attendance_for_month.filter(status=status[0]).count()
-            status_counts.append(current_status_count)
-
-        data["attendance_labels"] = status_names
-        data["attendance_data"] = status_counts
+        data["attendance_labels"] = attendance_labels
+        data["attendance_data"] = attendance_data
 
         # make info json safe
         data = {field: json.dumps(data[field]) for field in data}
