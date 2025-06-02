@@ -1,27 +1,27 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Analytics Charts</title>
-    </head>
-    <body>
-        <!--Script in body tag so it's easier to refactor to template inheritance later-->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="{% static 'js/createChart.js' %}"></script>
-        <div id="charts">
-            <canvas id="Employees per Departent Pie Chart"></canvas>
-            <canvas id="Monthly Attendance Bar Chart"></canvas>
-        </div>
 
-        <script id="chart-data" type="application/json">
-        {
-            "departments": {{ departments|safe }},
-            "employees_per_department": {{employees_per_department|safe}},
-            "attendance_labels": {{ attendance_labels|safe }},
-            "attendance_data": {{ attendance_data|safe }}
-        }
-        </script>
-    </body>
-</html>
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static "css/charts.css" %}"></link>
+{% endblock stylesheets %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/createChart.js' %}"></script>
+
+    <script id="chart-data" type="application/json">
+    {
+        "departments": {{ departments|safe }},
+        "employees_per_department": {{employees_per_department|safe}},
+        "attendance_labels": {{ attendance_labels|safe }},
+        "attendance_data": {{ attendance_data|safe }}
+    }
+    </script>
+{% endblock scripts  %}
+
+{% block content %}
+    <div class="charts">
+        <canvas id="Employees per Departent Pie Chart"></canvas>
+        <canvas id="Monthly Attendance Bar Chart"></canvas>
+    </div>
+{% endblock content %}
