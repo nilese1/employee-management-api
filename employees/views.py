@@ -1,8 +1,13 @@
-from django.views.generic import TemplateView
+from django.contrib.auth import logout
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, View
+from django.views.generic.base import HttpResponseRedirect
 from drf_yasg import openapi
 from rest_framework import viewsets
 
 from attendance.models import Attendance
+from employee_management_api.settings import LOGOUT_REDIRECT_URL
 from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSerializer
 from .models import Employee, Department, Performance
 from django_filters.rest_framework import DjangoFilterBackend
@@ -107,3 +112,9 @@ class ChartView(TemplateView):
             context[field] = data[field]
 
         return context
+
+
+# standard logout redirect thingy
+def logout_redirect(request):
+    logout(request)
+    return redirect(LOGOUT_REDIRECT_URL)

@@ -42,6 +42,13 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
+LOGIN_URL = "/api-auth/login"
+
+LOGOUT_URL = "/api-auth/logout"
+
+LOGOUT_REDIRECT_URL = "/swagger/"
+
+LOGIN_REDIRECT_URL = "/swagger/"
 
 # Application definition
 
