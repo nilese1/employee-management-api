@@ -1,15 +1,22 @@
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 from django.views.generic.base import HttpResponseRedirect
 from drf_yasg import openapi
-from rest_framework import viewsets
+from rest_framework import generics, viewsets
+from rest_framework.permissions import AllowAny
 
 from attendance.models import Attendance
 from employee_management_api.settings import LOGOUT_REDIRECT_URL
 from employees.permissions import IsAdminOrReadOnly
-from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSerializer
+from .serializers import (
+    EmployeeSerializer,
+    DepartmentSerializer,
+    PerformanceSerializer,
+    RegisterSerializer,
+)
 from .models import Employee, Department, Performance
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
@@ -138,6 +145,11 @@ class ChartView(TemplateView):
             context[field] = data[field]
 
         return context
+
+
+class RegisterView(generics.CreateAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
 
 
 # standard logout redirect thingy

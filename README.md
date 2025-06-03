@@ -62,6 +62,6 @@ docker compose up --watch
 | Path           | Description            |
 |----------------|------------------------|
 | `/api/`        | API root               |
-| `/swagger/`    | Swagger UI             |
+| `/swagger/`    | Swagger UI Documentation             |
 | `/admin/`      | Django admin panel     |
 | `/charts/`     | Visualized dashboard of data|
