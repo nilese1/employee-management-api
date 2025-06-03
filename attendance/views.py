@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 
+from employees.permissions import IsAdminOrReadOnly
+
 from .models import Attendance
 from .serializers import AttendanceSerializer
 
@@ -13,3 +15,4 @@ class AttendanceViewSet(viewsets.ModelViewSet):
 
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
+    permission_classes = [IsAdminOrReadOnly]

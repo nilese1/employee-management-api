@@ -8,6 +8,7 @@ from rest_framework import viewsets
 
 from attendance.models import Attendance
 from employee_management_api.settings import LOGOUT_REDIRECT_URL
+from employees.permissions import IsAdminOrReadOnly
 from .serializers import EmployeeSerializer, DepartmentSerializer, PerformanceSerializer
 from .models import Employee, Department, Performance
 from django_filters.rest_framework import DjangoFilterBackend
@@ -48,6 +49,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["department", "date_of_joining", "department__department_name"]
@@ -69,6 +71,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class PerformanceViewSet(viewsets.ModelViewSet):
@@ -80,6 +83,7 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 
     queryset = Performance.objects.all()
     serializer_class = PerformanceSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ChartView(TemplateView):
