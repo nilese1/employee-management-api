@@ -18,7 +18,7 @@ cd employee-management-api
 ### 2. Setup Environment Variables
 Copy the example environment file and edit as needed:
 ```bash
-cp .env.example .env
+cp example.env .env
 ```
 > Fill .env with your database credentials or any other required settings
 

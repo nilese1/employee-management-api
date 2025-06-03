@@ -27,8 +27,6 @@ class Command(BaseCommand):
             department=department[0],
         )
 
-        self.stdout.write("John deployed!")
-
     def handle(self, *args, **options):
         count = options["count"]
         clear = options["clear"]
@@ -40,7 +38,7 @@ class Command(BaseCommand):
             try:
                 self.create_employee()
             except IntegrityError:
-                self.stderr.write(f"Something went wrong... skipping employee {i}")
+                self.stderr.write(f"Something went wrong... skipping employee")
 
     def add_arguments(self, parser):
         parser.add_argument(
