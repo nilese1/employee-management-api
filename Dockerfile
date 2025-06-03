@@ -22,8 +22,10 @@ FROM base AS builder
 # Copy only requirements for dependency install
 COPY --link requirements.txt ./
 
+ARG RAILWAY_PROJECT_ID=default
+
 # Create venv and install dependencies
-RUN --mount=type=cache,id=python-app-pip-cache,target=/root/.cache/pip \
+RUN --mount=type=cache,id=cache-${RAILWAY_PROJECT_ID},target=/root/.cache/pip \
     python -m venv .venv \
     && .venv/bin/pip install --upgrade pip \
     && .venv/bin/pip install -r requirements.txt
