@@ -40,6 +40,12 @@ def employee_filter_params():
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows employees to be viewed or edited.
+
+    Provides standard CRUD operations on the Employee model.
+    """
+
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
@@ -55,16 +61,32 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows departments to be viewed or edited.
+
+    Provides standard CRUD operations on the Department model.
+    """
+
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
 
 class PerformanceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows performances to be viewed or edited.
+
+    Provides standard CRUD operations on the Performance model.
+    """
+
     queryset = Performance.objects.all()
     serializer_class = PerformanceSerializer
 
 
 class ChartView(TemplateView):
+    """
+    View responsible for handling chart data
+    """
+
     template_name = "chart.html"
 
     def get_attendance_graph_data(self, month, year):

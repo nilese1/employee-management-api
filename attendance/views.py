@@ -5,5 +5,11 @@ from .serializers import AttendanceSerializer
 
 
 class AttendanceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows attendances to be viewed or edited.
+
+    Provides standard CRUD operations on the Attendance model.
+    """
+
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
