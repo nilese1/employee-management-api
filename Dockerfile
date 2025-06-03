@@ -23,7 +23,7 @@ FROM base AS builder
 COPY --link requirements.txt ./
 
 # Create venv and install dependencies
-RUN --mount=type=cache,target=/root/.cache/pip,id=pip-cache \
+RUN --mount=type=cache,id=pip-cache,target=/root/.cache/pip \
     python -m venv .venv \
     && .venv/bin/pip install --upgrade pip \
     && .venv/bin/pip install -r requirements.txt
